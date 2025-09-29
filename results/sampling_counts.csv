@@ -1,0 +1,6 @@
+attribute_group,attribute_id,attribute_name,count
+boundary,0,Dirichlet,86
+boundary,1,Neumann,32
+material,0,material_0,16724
+material,1,material_1,3020
+material,3,material_3,256

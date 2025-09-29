@@ -33,7 +33,7 @@ Assumptions:
   preferred; otherwise the first available SCALARS array is used.
 - Only triangle cells (VTK cell type 5) are used for sampling and visualization.
 
-Author: ChatGPT
+Author: ysuzuki
 """
 
 from __future__ import annotations
@@ -46,12 +46,12 @@ from collections import defaultdict
 # -------------------- Configuration --------------------
 
 # Input/Output paths
-VTK_PATH = Path("/mnt/data/gen_0ind_0_MaterialConfig.vtk")
-OUT_NPZ  = Path("/mnt/data/pinn_points_from_vtk.npz")
-OUT_PNG  = Path("/mnt/data/sampling_preview_from_vtk.png")
+VTK_PATH = Path("../data/gen_0ind_0_MaterialConfig.vtk")
+OUT_NPZ  = Path("../data/pinn_points_from_vtk.npz")
+OUT_PNG  = Path("../results/sampling_preview_from_vtk.png")
 
 # Sampling parameters
-POINTS_TOTAL: int = 20_000   # Total number of interior samples to generate
+POINTS_TOTAL: int = 20000   # Total number of interior samples to generate
 TAU: float = 1e-3            # Barycentric coordinate floor to avoid edges
 RANDOM_SEED: int = 42        # RNG seed for reproducibility
 
@@ -239,7 +239,8 @@ def sample_in_triangles(points2d: np.ndarray,
                         mat_per_tri: np.ndarray,
                         n_total: int,
                         tau: float = 1e-6,
-                        seed: int = 42) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+                        seed: int = 42,
+                        material_weights:Optional[object] = None) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Area-proportional interior sampling with **edge avoidance**.
 
@@ -278,7 +279,32 @@ def sample_in_triangles(points2d: np.ndarray,
 
     # Allocate sample counts per triangle according to area
     areas = tri_areas(points2d, tris)
-    probs = areas / areas.sum()
+    probs = areas.copy()
+
+    if material_weights is not None:
+        if isinstance(material_weights, dict):
+            # dict: {材料ID: 重み} を安全に適用。未指定IDは 1.0
+            w_tri = np.array([float(material_weights.get(int(m), 1.0))
+                              for m in mat_per_tri], dtype=np.float64)
+        else:
+            # 配列/リスト: インデックス=材料ID として参照
+            arr = np.asarray(material_weights, dtype=np.float64)
+            if arr.ndim != 1:
+                raise ValueError("material_weights は 1次元配列か dict を渡してください。")
+            if mat_per_tri.min() < 0:
+                raise ValueError("材料IDに負が含まれています。配列参照は不可なので dict を使うか、IDを非負に正規化してください。")
+            max_id = int(mat_per_tri.max())
+            if max_id >= arr.shape[0]:
+                raise ValueError(f"material_weights の長さ({arr.shape[0]})が材料IDの最大値({max_id})に足りません。")
+            w_tri = arr[mat_per_tri]
+
+        probs *= w_tri
+
+    s = probs.sum()
+    if not np.isfinite(s) or s <= 0:
+        raise ValueError("面積×重みの合計が不正です。面積や material_weights を確認してください。")
+
+    probs /= s
     counts = np.floor(n_total * probs + 1e-9).astype(int)
 
     # Distribute any remaining samples to the largest triangles
@@ -469,7 +495,8 @@ def main() -> None:
 
     # 4) Interior sampling that avoids edges
     X_int, mat_ids, elem_ids = sample_in_triangles(points2d, tris, tri_mat,
-                                                   POINTS_TOTAL, tau=TAU, seed=RANDOM_SEED)
+                                                   POINTS_TOTAL, tau=TAU, seed=RANDOM_SEED,
+                                                   material_weights={0:1.0, 1:1.0, 3:2.5})
 
     # 5) Boundary classification (bottom=Neumann; left/right/top=Dirichlet)
     X_bc, bc_type, n_bc, bbox = classify_boundary_edges(points2d, tris)
@@ -489,38 +516,31 @@ def main() -> None:
     ax.set_aspect('equal', 'box')
 
     # Draw mesh edges
+    # メッシュのエッジ（均一の細線・色指定なし）
     for i, j, k in tris:
         poly = np.vstack([points2d[i], points2d[j], points2d[k], points2d[i]])
-        ax.plot(poly[:, 0], poly[:, 1], linewidth=0.4)
+        ax.plot(poly[:, 0], poly[:, 1], c="black", linewidth=0.4)
 
     # Plot interior points colored by material
     uniq_mats = np.unique(mat_ids)
+    mat_labels = {0: "Iron", 1: "Air", 3: "Coil"}
     for m in uniq_mats:
         mask = (mat_ids == m)
         if np.any(mask):
-            ax.scatter(X_int[mask, 0], X_int[mask, 1], s=2, alpha=0.6, label=f"mat={m}")
+            ax.scatter(X_int[mask, 0], X_int[mask, 1], s=2, alpha=0.6, label=mat_labels.get(int(m)))
 
-    # Plot boundary points: Dirichlet (squares), Neumann (triangles)
+    # 境界点: Dirichlet=四角, Neumann=三角（矢印は描かない）
     if X_bc.shape[0] > 0:
         dir_mask = (bc_type == 0)
         neu_mask = (bc_type == 1)
 
         if np.any(dir_mask):
             ax.scatter(X_bc[dir_mask, 0], X_bc[dir_mask, 1],
-                       s=10, marker='s', alpha=0.9, label='Dirichlet (top/left/right)')
+                       s=10, marker='s', alpha=0.9, label='Dirichlet')
 
         if np.any(neu_mask):
-            ax.scatter(X_bc[neu_mask, 0], X_bc[neu_mask, 1],
-                       s=14, marker='^', alpha=0.9, label='Neumann (bottom)')
-            # Draw a subset of outward normals (arrows) to indicate Neumann direction
-            xmin, xmax, ymin, ymax = bbox[0], bbox[1], bbox[2], bbox[3]
-            extent = max(xmax - xmin, ymax - ymin)
-            scale = 0.02 * extent
-            idxs = np.where(neu_mask)[0][:200]  # avoid clutter by capping arrows
-            for k in idxs:
-                p = X_bc[k]; n = n_bc[k]
-                ax.arrow(p[0], p[1], n[0]*scale, n[1]*scale,
-                         head_width=0.005*extent, length_includes_head=True, linewidth=0.6)
+            ax.scatter(X_bc[neu_mask, 0], X_bc[neu_mask, 1],s=14, marker='^', alpha=0.9, label='Neumann')
+           
 
     ax.set_title("VTK Sampling Preview (interior + boundary)")
     ax.legend(markerscale=3, fontsize=8, loc='upper right', framealpha=0.85)
