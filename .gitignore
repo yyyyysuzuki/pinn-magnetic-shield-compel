@@ -1,0 +1,43 @@
+# ========== データ/結果 ==========
+data/
+results/
+logs/
+wandb/
+mlruns/
+output/
+
+# ========== モデルファイル ==========
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.h5
+*.pkl
+*.joblib
+
+# ========== 大きな配布ファイル ==========
+*.csv
+*.tsv
+*.json
+*.yaml
+*.npz
+*.npy
+*.mat
+*.parquet
+*.zip
+*.tar
+*.gz
+*.bz2
+
+# ========== Python ビルド/キャッシュ ==========
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# ========== 環境/秘密情報 ==========
+.env
+*.secret
+*.key
