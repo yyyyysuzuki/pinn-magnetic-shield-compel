@@ -11,11 +11,13 @@ NPZ -> PINN 学習（2D磁界 A_z のPoisson型）
 """
 import matplotlib.pyplot as plt
 import write_vtk as wv
+import toolbox as tb
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import csv
+import time
 from pathlib import Path
 
 # ==== 入力NPZ ==========================================================
@@ -54,10 +56,10 @@ NEUMANN_VALUE = 0.0
 HIDDEN = 64
 DEPTH  = 4
 LR     = 1e-3
-EPOCHS = 5000
+EPOCHS = 20000
 LAMBDA_PDE = 1.0
-LAMBDA_DIR = 1e+10
-LAMBDA_NEU = 1.0
+LAMBDA_DIR = 1e+5
+LAMBDA_NEU = 1e-5
 BATCH_INT = 8192       # 内部点のバッチ（メモリに応じて）
 BATCH_BC  = 4096       # 境界点のバッチ
 SEED = 42
@@ -166,11 +168,13 @@ Nb_d = Xd_all.shape[0]
 Nb_n = Xn_all.shape[0]
 
 print(f"[info] interior N={N}, Dirichlet Nb={Nb_d}, Neumann Nb={Nb_n}, device={device}")
+epochhistory = []
 losspde  = []
 lossdir  = []
 lossneu  = []
 
 for ep in range(1, EPOCHS+1):
+    start = time.time()
     model.train()
     # ---- interior: ミニバッチ ----
     idx_int = torch.randint(0, N, (min(BATCH_INT, N),), device=device)
@@ -194,10 +198,11 @@ for ep in range(1, EPOCHS+1):
         loss_neu = torch.tensor(0.0, device=device)
 
     loss = LAMBDA_PDE*loss_pde + LAMBDA_DIR*loss_dir + LAMBDA_NEU*loss_neu
+    epochhistory.append(ep)
     losspde.append((LAMBDA_PDE*loss_pde).item())
     lossdir.append((LAMBDA_DIR*loss_dir).item())
     lossneu.append((LAMBDA_NEU*loss_neu).item())
-    wv.write_three_lists_to_csv(losspde, lossdir, lossneu, f"../results/loss.csv", ("pde","dir","neu"))
+    tb.write_four_lists_to_csv(epochhistory,losspde, lossdir, lossneu, f"../results/loss.csv", ("epoch","pde","dir","neu"))
 
     opt.zero_grad()
     loss.backward()
@@ -248,5 +253,7 @@ for ep in range(1, EPOCHS+1):
         fig.tight_layout(); fig.savefig(f"../results/{ep}_A_grid_contourf.png")
         print(f"{ep}_saved A_grid_contourf.png")
 
-# ==== 学習済みモデルの保存 ============================================
+end = time.time()
+
+print("実行時間：",end-start,"秒")
 

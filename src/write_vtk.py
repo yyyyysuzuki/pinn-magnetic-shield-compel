@@ -300,13 +300,3 @@ export_vtk_from_json(
     index_base=0,  # JSONのノード番号が0起点なら0、1起点なら1
 )
 """
-def write_three_lists_to_csv(list1, list2, list3, filename, header):
-    if len(list1) != len(list2) or len(list1) != len(list3):
-        raise ValueError("リストの長さが一致していません")
-    
-    with open(filename, "w", newline='') as f:
-        writer = csv.writer(f)
-        if header:
-            writer.writerow(header)
-        for v1, v2, v3 in zip(list1, list2, list3):
-            writer.writerow([v1, v2, v3])
