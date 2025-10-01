@@ -202,7 +202,6 @@ for ep in range(1, EPOCHS+1):
     losspde.append((LAMBDA_PDE*loss_pde).item())
     lossdir.append((LAMBDA_DIR*loss_dir).item())
     lossneu.append((LAMBDA_NEU*loss_neu).item())
-    tb.write_four_lists_to_csv(epochhistory,losspde, lossdir, lossneu, f"../results/loss.csv", ("epoch","pde","dir","neu"))
 
     opt.zero_grad()
     loss.backward()
@@ -223,6 +222,8 @@ for ep in range(1, EPOCHS+1):
             index_base=0,  # JSONのノード番号が0起点なら0、1起点なら1
         )
 
+        if ep % 10000 == 0 or ep == 1:
+            tb.write_four_lists_to_csv(epochhistory,losspde, lossdir, lossneu, f"../results/loss.csv", ("epoch","pde","dir","neu"))
 
         # ごりおし可視化
         # bbox 推定（npz に bbox が入っていればそれを使う）

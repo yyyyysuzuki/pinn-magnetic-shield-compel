@@ -28,6 +28,7 @@ output/
 *.tar
 *.gz
 *.bz2
+*.out
 
 # ========== Python ビルド/キャッシュ ==========
 __pycache__/
