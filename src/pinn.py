@@ -36,7 +36,7 @@ nustar = jstar/astar
 
 # 材料ID -> 相対透磁率 mu_r
 MU_R = {
-    0: 1000.0/nustar,   # 例: iron
+    0: 1.0/nustar,   # 例: iron  (実験的に鉄を空気に変更しました)
     1: 1.0/nustar,      # 例: air
     3: 1.5/nustar,      # 例: coil  (巻線領域は近似的に空気扱いにしておく)
 }
@@ -56,7 +56,7 @@ NEUMANN_VALUE = 0.0
 HIDDEN = 64
 DEPTH  = 4
 LR     = 1e-3
-EPOCHS = 20000
+EPOCHS = 1000000
 LAMBDA_PDE = 1.0
 LAMBDA_DIR = 1e+5
 LAMBDA_NEU = 1e-5
@@ -208,7 +208,7 @@ for ep in range(1, EPOCHS+1):
     loss.backward()
     opt.step()
 
-    if ep % 200 == 0 or ep == 1:
+    if ep % 5000 == 0 or ep == 1:
         print(f"[{ep:5d}] loss={loss.item():.3e} | pde={loss_pde.item():.3e} dir={loss_dir.item():.3e} neu={loss_neu.item():.3e}")
 
         model.eval()
@@ -223,8 +223,6 @@ for ep in range(1, EPOCHS+1):
             index_base=0,  # JSONのノード番号が0起点なら0、1起点なら1
         )
 
-        torch.save(model.state_dict(), f"{ep}_pinn_model.pt")
-        print(f"[OK] saved -> {ep}_pinn_model.pt")
 
         # ごりおし可視化
         # bbox 推定（npz に bbox が入っていればそれを使う）
@@ -252,6 +250,10 @@ for ep in range(1, EPOCHS+1):
         ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_title("A distribution (grid contourf)")
         fig.tight_layout(); fig.savefig(f"../results/{ep}_A_grid_contourf.png")
         print(f"{ep}_saved A_grid_contourf.png")
+
+
+torch.save(model.state_dict(), f"../results/pinn_model.pt")
+print(f"[OK] saved -> {ep}_pinn_model.pt")
 
 end = time.time()
 
