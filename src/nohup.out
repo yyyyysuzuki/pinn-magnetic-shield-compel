@@ -1,8 +1,434 @@
+[info] interior N=20000, Dirichlet Nb=86, Neumann Nb=32, device=cuda
+Traceback (most recent call last):
+  File "/home/ysuzuki/pinn_workplace2/pinn-magnetic-shield-compel/src/pinn.py", line 192, in <module>
+    r   = pde_residual(Xi, inv, J)
+  File "/home/ysuzuki/pinn_workplace2/pinn-magnetic-shield-compel/src/pinn.py", line 132, in pde_residual
+    A = model(batch_X)                     # (B,1)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ysuzuki/pinn_workplace2/pinn-magnetic-shield-compel/src/pinn.py", line 116, in forward
+    return self.net(x)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/container.py", line 250, in forward
+    input = module(input)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: Deterministic behavior was enabled with either `torch.use_deterministic_algorithms(True)` or `at::Context::setDeterministicAlgorithms(true)`, but this operation is not deterministic because it uses CuBLAS and you have CUDA >= 10.2. To enable deterministic behavior in this case, you must set an environment variable before running your PyTorch application: CUBLAS_WORKSPACE_CONFIG=:4096:8 or CUBLAS_WORKSPACE_CONFIG=:16:8. For more information, go to https://docs.nvidia.com/cuda/cublas/index.html#results-reproducibility
 /home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/autograd/graph.py:825: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at /opt/conda/conda-bld/pytorch_1729647352509/work/aten/src/ATen/cuda/CublasHandlePool.cpp:135.)
   return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
-/home/ysuzuki/pinn_workplace/pinn-magnetic-shield-compel/src/pinn.py:247: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+/home/ysuzuki/pinn_workplace2/pinn-magnetic-shield-compel/src/pinn.py:255: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
   fig = plt.figure(figsize=(7,6), dpi=150)
-/home/ysuzuki/miniconda3/envs/pytorch_gpu/lib/python3.10/site-packages/torch/autograd/graph.py:825: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at /opt/conda/conda-bld/pytorch_1729647352509/work/aten/src/ATen/cuda/CublasHandlePool.cpp:135.)
-  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
-/home/ysuzuki/pinn_workplace/pinn-magnetic-shield-compel/src/pinn.py:248: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
-  fig = plt.figure(figsize=(7,6), dpi=150)
+[info] interior N=20000, Dirichlet Nb=86, Neumann Nb=32, device=cuda
+[    1] loss=9.537e+09 | pde=9.537e+09 dir=3.396e-02 neu=4.136e+10
+1_saved A_grid_contourf.png
+[ 5000] loss=1.159e+10 | pde=1.157e+10 dir=7.282e+01 neu=9.603e+11
+5000_saved A_grid_contourf.png
+[10000] loss=7.966e+09 | pde=7.926e+09 dir=4.967e+01 neu=3.449e+12
+10000_saved A_grid_contourf.png
+[15000] loss=7.060e+09 | pde=7.040e+09 dir=1.473e+02 neu=5.495e+11
+15000_saved A_grid_contourf.png
+[20000] loss=5.574e+09 | pde=5.550e+09 dir=2.264e+02 neu=1.292e+11
+20000_saved A_grid_contourf.png
+[25000] loss=4.102e+09 | pde=4.097e+09 dir=4.126e+01 neu=1.134e+11
+25000_saved A_grid_contourf.png
+[30000] loss=5.153e+09 | pde=5.133e+09 dir=1.956e+02 neu=6.909e+10
+30000_saved A_grid_contourf.png
+[35000] loss=5.549e+09 | pde=5.509e+09 dir=3.870e+02 neu=9.401e+10
+35000_saved A_grid_contourf.png
+[40000] loss=3.557e+09 | pde=3.552e+09 dir=4.892e+01 neu=3.067e+10
+40000_saved A_grid_contourf.png
+[45000] loss=3.514e+09 | pde=3.485e+09 dir=2.836e+02 neu=2.168e+10
+45000_saved A_grid_contourf.png
+[50000] loss=4.880e+09 | pde=4.864e+09 dir=1.495e+02 neu=3.686e+10
+50000_saved A_grid_contourf.png
+[55000] loss=6.366e+09 | pde=6.357e+09 dir=9.090e+01 neu=1.114e+10
+55000_saved A_grid_contourf.png
+[60000] loss=3.292e+09 | pde=3.271e+09 dir=1.978e+02 neu=4.885e+10
+60000_saved A_grid_contourf.png
+[65000] loss=3.942e+09 | pde=3.895e+09 dir=4.459e+02 neu=2.220e+11
+65000_saved A_grid_contourf.png
+[70000] loss=1.745e+09 | pde=1.724e+09 dir=2.008e+02 neu=1.040e+11
+70000_saved A_grid_contourf.png
+[75000] loss=3.017e+09 | pde=2.995e+09 dir=2.175e+02 neu=4.583e+10
+75000_saved A_grid_contourf.png
+[80000] loss=2.350e+09 | pde=2.336e+09 dir=1.369e+02 neu=3.878e+10
+80000_saved A_grid_contourf.png
+[85000] loss=3.682e+09 | pde=3.675e+09 dir=6.944e+01 neu=2.743e+10
+85000_saved A_grid_contourf.png
+[90000] loss=1.815e+09 | pde=1.777e+09 dir=3.806e+02 neu=1.891e+10
+90000_saved A_grid_contourf.png
+[95000] loss=2.324e+09 | pde=2.316e+09 dir=7.777e+01 neu=4.155e+10
+95000_saved A_grid_contourf.png
+[100000] loss=1.857e+09 | pde=1.850e+09 dir=6.749e+01 neu=6.072e+10
+100000_saved A_grid_contourf.png
+[105000] loss=1.036e+09 | pde=1.029e+09 dir=6.029e+01 neu=6.212e+10
+105000_saved A_grid_contourf.png
+[110000] loss=1.049e+09 | pde=1.042e+09 dir=7.034e+01 neu=3.133e+10
+110000_saved A_grid_contourf.png
+[115000] loss=6.765e+08 | pde=6.558e+08 dir=2.023e+02 neu=4.478e+10
+115000_saved A_grid_contourf.png
+[120000] loss=9.064e+08 | pde=8.699e+08 dir=3.410e+02 neu=2.364e+11
+120000_saved A_grid_contourf.png
+[125000] loss=8.350e+08 | pde=8.299e+08 dir=4.731e+01 neu=3.453e+10
+125000_saved A_grid_contourf.png
+[130000] loss=1.275e+09 | pde=1.255e+09 dir=1.961e+02 neu=7.872e+10
+130000_saved A_grid_contourf.png
+[135000] loss=5.548e+08 | pde=4.936e+08 dir=6.060e+02 neu=6.053e+10
+135000_saved A_grid_contourf.png
+[140000] loss=6.357e+08 | pde=6.298e+08 dir=5.576e+01 neu=3.153e+10
+140000_saved A_grid_contourf.png
+[145000] loss=4.892e+08 | pde=4.696e+08 dir=1.946e+02 neu=1.394e+10
+145000_saved A_grid_contourf.png
+[150000] loss=4.970e+08 | pde=4.665e+08 dir=3.025e+02 neu=2.131e+10
+150000_saved A_grid_contourf.png
+[155000] loss=4.988e+08 | pde=4.937e+08 dir=5.003e+01 neu=8.171e+09
+155000_saved A_grid_contourf.png
+[160000] loss=3.342e+08 | pde=3.186e+08 dir=1.552e+02 neu=9.327e+09
+160000_saved A_grid_contourf.png
+[165000] loss=2.455e+08 | pde=2.332e+08 dir=1.210e+02 neu=2.524e+10
+165000_saved A_grid_contourf.png
+[170000] loss=4.045e+08 | pde=3.907e+08 dir=1.315e+02 neu=6.759e+10
+170000_saved A_grid_contourf.png
+[175000] loss=2.247e+08 | pde=2.205e+08 dir=3.580e+01 neu=6.386e+10
+175000_saved A_grid_contourf.png
+[180000] loss=3.879e+08 | pde=3.689e+08 dir=1.786e+02 neu=1.121e+11
+180000_saved A_grid_contourf.png
+[185000] loss=1.534e+08 | pde=1.430e+08 dir=1.029e+02 neu=5.235e+09
+185000_saved A_grid_contourf.png
+[190000] loss=3.126e+08 | pde=3.080e+08 dir=4.335e+01 neu=2.772e+10
+190000_saved A_grid_contourf.png
+[195000] loss=2.339e+08 | pde=2.173e+08 dir=1.608e+02 neu=4.778e+10
+195000_saved A_grid_contourf.png
+[200000] loss=1.880e+08 | pde=1.853e+08 dir=2.557e+01 neu=1.833e+10
+200000_saved A_grid_contourf.png
+[205000] loss=1.524e+08 | pde=1.464e+08 dir=5.199e+01 neu=7.715e+10
+205000_saved A_grid_contourf.png
+[210000] loss=1.501e+08 | pde=1.449e+08 dir=5.036e+01 neu=2.232e+10
+210000_saved A_grid_contourf.png
+[215000] loss=2.025e+08 | pde=1.963e+08 dir=5.930e+01 neu=2.566e+10
+215000_saved A_grid_contourf.png
+[220000] loss=2.997e+08 | pde=2.914e+08 dir=7.297e+01 neu=9.453e+10
+220000_saved A_grid_contourf.png
+[225000] loss=8.324e+07 | pde=7.995e+07 dir=3.128e+01 neu=1.594e+10
+225000_saved A_grid_contourf.png
+[230000] loss=1.715e+10 | pde=1.705e+10 dir=7.612e+01 neu=9.335e+12
+230000_saved A_grid_contourf.png
+[235000] loss=6.397e+09 | pde=6.382e+09 dir=8.173e+01 neu=7.324e+11
+235000_saved A_grid_contourf.png
+[240000] loss=5.771e+09 | pde=5.760e+09 dir=9.415e+01 neu=1.322e+11
+240000_saved A_grid_contourf.png
+[245000] loss=3.378e+09 | pde=3.368e+09 dir=4.078e+01 neu=6.023e+11
+245000_saved A_grid_contourf.png
+[250000] loss=3.380e+09 | pde=3.374e+09 dir=3.467e+01 neu=2.656e+11
+250000_saved A_grid_contourf.png
+[255000] loss=1.041e+10 | pde=1.038e+10 dir=2.255e+02 neu=4.210e+11
+255000_saved A_grid_contourf.png
+[260000] loss=7.231e+09 | pde=7.228e+09 dir=1.959e+01 neu=1.093e+11
+260000_saved A_grid_contourf.png
+[265000] loss=6.579e+09 | pde=6.558e+09 dir=1.866e+02 neu=2.341e+11
+265000_saved A_grid_contourf.png
+[270000] loss=1.047e+10 | pde=1.045e+10 dir=1.536e+02 neu=1.005e+12
+270000_saved A_grid_contourf.png
+[275000] loss=8.744e+09 | pde=8.738e+09 dir=1.162e+01 neu=4.930e+11
+275000_saved A_grid_contourf.png
+[280000] loss=5.710e+09 | pde=5.707e+09 dir=1.732e+01 neu=9.537e+10
+280000_saved A_grid_contourf.png
+[285000] loss=8.128e+09 | pde=8.119e+09 dir=7.434e+01 neu=8.201e+10
+285000_saved A_grid_contourf.png
+[290000] loss=6.595e+09 | pde=6.593e+09 dir=7.320e+00 neu=7.687e+10
+290000_saved A_grid_contourf.png
+[295000] loss=7.491e+09 | pde=7.488e+09 dir=2.909e+01 neu=4.457e+10
+295000_saved A_grid_contourf.png
+[300000] loss=8.962e+09 | pde=8.941e+09 dir=1.597e+02 neu=5.452e+11
+300000_saved A_grid_contourf.png
+[305000] loss=8.238e+09 | pde=8.236e+09 dir=6.564e+00 neu=2.029e+11
+305000_saved A_grid_contourf.png
+[310000] loss=8.169e+09 | pde=8.166e+09 dir=2.114e+01 neu=5.465e+10
+310000_saved A_grid_contourf.png
+[315000] loss=8.478e+09 | pde=8.475e+09 dir=2.390e+01 neu=5.839e+10
+315000_saved A_grid_contourf.png
+[320000] loss=7.727e+09 | pde=7.719e+09 dir=8.249e+01 neu=4.943e+10
+320000_saved A_grid_contourf.png
+[325000] loss=7.979e+09 | pde=7.970e+09 dir=6.864e+01 neu=1.334e+11
+325000_saved A_grid_contourf.png
+[330000] loss=6.689e+09 | pde=6.681e+09 dir=5.856e+01 neu=1.501e+11
+330000_saved A_grid_contourf.png
+[335000] loss=6.486e+09 | pde=6.479e+09 dir=3.641e+01 neu=3.395e+11
+335000_saved A_grid_contourf.png
+[340000] loss=5.930e+09 | pde=5.926e+09 dir=2.595e+01 neu=1.386e+11
+340000_saved A_grid_contourf.png
+[345000] loss=7.136e+09 | pde=7.133e+09 dir=1.727e+01 neu=6.132e+10
+345000_saved A_grid_contourf.png
+[350000] loss=7.296e+09 | pde=7.289e+09 dir=5.874e+01 neu=5.037e+10
+350000_saved A_grid_contourf.png
+[355000] loss=7.568e+09 | pde=7.563e+09 dir=4.195e+01 neu=1.163e+11
+355000_saved A_grid_contourf.png
+[360000] loss=7.788e+09 | pde=7.786e+09 dir=1.660e+01 neu=6.222e+10
+360000_saved A_grid_contourf.png
+[365000] loss=6.113e+09 | pde=6.109e+09 dir=3.176e+01 neu=6.058e+10
+365000_saved A_grid_contourf.png
+[370000] loss=6.185e+09 | pde=6.184e+09 dir=4.571e+00 neu=2.266e+10
+370000_saved A_grid_contourf.png
+[375000] loss=8.129e+09 | pde=8.122e+09 dir=2.213e+01 neu=4.579e+11
+375000_saved A_grid_contourf.png
+[380000] loss=4.202e+09 | pde=4.196e+09 dir=4.562e+01 neu=1.117e+11
+380000_saved A_grid_contourf.png
+[385000] loss=5.689e+09 | pde=5.685e+09 dir=2.905e+01 neu=1.470e+11
+385000_saved A_grid_contourf.png
+[390000] loss=7.480e+09 | pde=7.476e+09 dir=4.136e+01 neu=3.733e+10
+390000_saved A_grid_contourf.png
+[395000] loss=8.320e+09 | pde=8.314e+09 dir=4.442e+01 neu=1.569e+11
+395000_saved A_grid_contourf.png
+[400000] loss=6.048e+09 | pde=6.032e+09 dir=9.159e+01 neu=6.793e+11
+400000_saved A_grid_contourf.png
+[405000] loss=4.451e+09 | pde=4.438e+09 dir=8.549e+01 neu=4.147e+11
+405000_saved A_grid_contourf.png
+[410000] loss=6.563e+09 | pde=6.556e+09 dir=6.500e+01 neu=1.148e+11
+410000_saved A_grid_contourf.png
+[415000] loss=7.096e+09 | pde=7.075e+09 dir=1.611e+02 neu=4.154e+11
+415000_saved A_grid_contourf.png
+[420000] loss=5.217e+09 | pde=5.177e+09 dir=3.733e+02 neu=3.009e+11
+420000_saved A_grid_contourf.png
+[425000] loss=4.071e+09 | pde=4.005e+09 dir=6.325e+02 neu=2.847e+11
+425000_saved A_grid_contourf.png
+[430000] loss=4.227e+09 | pde=4.150e+09 dir=7.677e+02 neu=5.785e+10
+430000_saved A_grid_contourf.png
+[435000] loss=4.295e+09 | pde=4.245e+09 dir=4.688e+02 neu=3.695e+11
+435000_saved A_grid_contourf.png
+[440000] loss=3.181e+09 | pde=3.138e+09 dir=4.179e+02 neu=1.103e+11
+440000_saved A_grid_contourf.png
+[445000] loss=4.360e+09 | pde=4.343e+09 dir=1.429e+02 neu=2.605e+11
+445000_saved A_grid_contourf.png
+[450000] loss=3.498e+09 | pde=3.482e+09 dir=1.061e+02 neu=5.298e+11
+450000_saved A_grid_contourf.png
+[455000] loss=3.459e+09 | pde=3.439e+09 dir=1.842e+02 neu=1.782e+11
+455000_saved A_grid_contourf.png
+[460000] loss=3.564e+09 | pde=3.539e+09 dir=2.271e+02 neu=2.425e+11
+460000_saved A_grid_contourf.png
+[465000] loss=3.412e+09 | pde=3.393e+09 dir=1.833e+02 neu=7.499e+10
+465000_saved A_grid_contourf.png
+[470000] loss=2.875e+09 | pde=2.855e+09 dir=1.771e+02 neu=2.736e+11
+470000_saved A_grid_contourf.png
+[475000] loss=3.438e+09 | pde=3.414e+09 dir=2.317e+02 neu=1.144e+11
+475000_saved A_grid_contourf.png
+[480000] loss=3.600e+09 | pde=3.586e+09 dir=1.328e+02 neu=7.247e+10
+480000_saved A_grid_contourf.png
+[485000] loss=3.244e+09 | pde=3.236e+09 dir=4.608e+01 neu=3.730e+11
+485000_saved A_grid_contourf.png
+[490000] loss=2.788e+09 | pde=2.777e+09 dir=1.073e+02 neu=8.781e+10
+490000_saved A_grid_contourf.png
+[495000] loss=2.282e+09 | pde=2.249e+09 dir=2.886e+02 neu=4.478e+11
+495000_saved A_grid_contourf.png
+[500000] loss=2.774e+09 | pde=2.757e+09 dir=1.605e+02 neu=1.572e+11
+500000_saved A_grid_contourf.png
+[505000] loss=2.632e+09 | pde=2.615e+09 dir=1.635e+02 neu=9.293e+10
+505000_saved A_grid_contourf.png
+[510000] loss=2.532e+09 | pde=2.524e+09 dir=8.098e+01 neu=6.655e+10
+510000_saved A_grid_contourf.png
+[515000] loss=2.186e+09 | pde=2.172e+09 dir=1.280e+02 neu=1.804e+11
+515000_saved A_grid_contourf.png
+[520000] loss=2.849e+09 | pde=2.846e+09 dir=2.581e+01 neu=3.526e+10
+520000_saved A_grid_contourf.png
+[525000] loss=1.756e+09 | pde=1.749e+09 dir=5.802e+01 neu=7.929e+10
+525000_saved A_grid_contourf.png
+[530000] loss=2.682e+09 | pde=2.661e+09 dir=2.047e+02 neu=9.661e+10
+530000_saved A_grid_contourf.png
+[535000] loss=2.138e+09 | pde=2.124e+09 dir=1.311e+02 neu=2.516e+10
+535000_saved A_grid_contourf.png
+[540000] loss=1.443e+09 | pde=1.435e+09 dir=7.076e+01 neu=4.691e+10
+540000_saved A_grid_contourf.png
+[545000] loss=2.719e+09 | pde=2.697e+09 dir=2.217e+02 neu=1.226e+10
+545000_saved A_grid_contourf.png
+[550000] loss=1.346e+09 | pde=1.335e+09 dir=1.019e+02 neu=4.248e+10
+550000_saved A_grid_contourf.png
+[555000] loss=1.957e+09 | pde=1.945e+09 dir=1.111e+02 neu=7.251e+10
+555000_saved A_grid_contourf.png
+[560000] loss=2.196e+09 | pde=2.189e+09 dir=6.557e+01 neu=2.459e+10
+560000_saved A_grid_contourf.png
+[565000] loss=1.877e+09 | pde=1.866e+09 dir=1.111e+02 neu=1.775e+10
+565000_saved A_grid_contourf.png
+[570000] loss=1.446e+09 | pde=1.434e+09 dir=1.187e+02 neu=1.747e+10
+570000_saved A_grid_contourf.png
+[575000] loss=1.115e+09 | pde=1.093e+09 dir=2.197e+02 neu=2.240e+10
+575000_saved A_grid_contourf.png
+[580000] loss=1.682e+09 | pde=1.675e+09 dir=6.453e+01 neu=4.964e+10
+580000_saved A_grid_contourf.png
+[585000] loss=1.311e+09 | pde=1.306e+09 dir=4.530e+01 neu=1.952e+10
+585000_saved A_grid_contourf.png
+[590000] loss=1.019e+09 | pde=1.003e+09 dir=1.566e+02 neu=4.413e+10
+590000_saved A_grid_contourf.png
+[595000] loss=1.141e+09 | pde=1.112e+09 dir=2.432e+02 neu=4.184e+11
+595000_saved A_grid_contourf.png
+[600000] loss=9.091e+08 | pde=9.016e+08 dir=6.368e+01 neu=1.097e+11
+600000_saved A_grid_contourf.png
+[605000] loss=9.161e+08 | pde=9.000e+08 dir=1.574e+02 neu=2.745e+10
+605000_saved A_grid_contourf.png
+[610000] loss=9.610e+08 | pde=9.467e+08 dir=1.407e+02 neu=1.978e+10
+610000_saved A_grid_contourf.png
+[615000] loss=4.659e+08 | pde=4.633e+08 dir=2.273e+01 neu=3.489e+10
+615000_saved A_grid_contourf.png
+[620000] loss=8.495e+08 | pde=7.991e+08 dir=5.008e+02 neu=3.428e+10
+620000_saved A_grid_contourf.png
+[625000] loss=5.409e+08 | pde=5.268e+08 dir=1.352e+02 neu=6.088e+10
+625000_saved A_grid_contourf.png
+[630000] loss=3.624e+08 | pde=3.603e+08 dir=1.958e+01 neu=1.327e+10
+630000_saved A_grid_contourf.png
+[635000] loss=5.952e+08 | pde=5.930e+08 dir=1.964e+01 neu=2.092e+10
+635000_saved A_grid_contourf.png
+[640000] loss=6.295e+08 | pde=6.277e+08 dir=1.450e+01 neu=3.562e+10
+640000_saved A_grid_contourf.png
+[645000] loss=5.225e+08 | pde=5.062e+08 dir=1.536e+02 neu=8.837e+10
+645000_saved A_grid_contourf.png
+[650000] loss=5.284e+08 | pde=5.264e+08 dir=1.540e+01 neu=4.534e+10
+650000_saved A_grid_contourf.png
+[655000] loss=3.022e+08 | pde=2.825e+08 dir=1.703e+02 neu=2.699e+11
+655000_saved A_grid_contourf.png
+[660000] loss=4.145e+08 | pde=4.125e+08 dir=8.574e+00 neu=1.134e+11
+660000_saved A_grid_contourf.png
+[665000] loss=5.327e+08 | pde=5.187e+08 dir=1.365e+02 neu=3.299e+10
+665000_saved A_grid_contourf.png
+[670000] loss=2.987e+08 | pde=2.965e+08 dir=8.819e+00 neu=1.301e+11
+670000_saved A_grid_contourf.png
+[675000] loss=5.393e+08 | pde=5.095e+08 dir=2.920e+02 neu=5.560e+10
+675000_saved A_grid_contourf.png
+[680000] loss=2.063e+08 | pde=2.055e+08 dir=7.386e+00 neu=7.938e+09
+680000_saved A_grid_contourf.png
+[685000] loss=1.820e+08 | pde=1.770e+08 dir=4.733e+01 neu=2.782e+10
+685000_saved A_grid_contourf.png
+[690000] loss=2.579e+08 | pde=2.566e+08 dir=1.051e+01 neu=1.726e+10
+690000_saved A_grid_contourf.png
+[695000] loss=3.037e+08 | pde=3.028e+08 dir=7.929e+00 neu=8.928e+09
+695000_saved A_grid_contourf.png
+[700000] loss=1.534e+08 | pde=1.486e+08 dir=3.955e+01 neu=8.496e+10
+700000_saved A_grid_contourf.png
+[705000] loss=2.449e+08 | pde=2.392e+08 dir=5.367e+01 neu=3.694e+10
+705000_saved A_grid_contourf.png
+[710000] loss=1.119e+08 | pde=1.069e+08 dir=3.915e+01 neu=1.132e+11
+710000_saved A_grid_contourf.png
+[715000] loss=2.099e+08 | pde=2.066e+08 dir=3.175e+01 neu=1.427e+10
+715000_saved A_grid_contourf.png
+[720000] loss=1.838e+08 | pde=1.812e+08 dir=2.544e+01 neu=4.323e+09
+720000_saved A_grid_contourf.png
+[725000] loss=1.658e+08 | pde=1.573e+08 dir=7.900e+01 neu=5.352e+10
+725000_saved A_grid_contourf.png
+[730000] loss=1.074e+08 | pde=9.860e+07 dir=8.773e+01 neu=7.141e+09
+730000_saved A_grid_contourf.png
+[735000] loss=1.698e+08 | pde=1.695e+08 dir=2.782e+00 neu=6.767e+09
+735000_saved A_grid_contourf.png
+[740000] loss=1.309e+08 | pde=1.236e+08 dir=6.767e+01 neu=4.701e+10
+740000_saved A_grid_contourf.png
+[745000] loss=1.161e+08 | pde=1.157e+08 dir=2.376e+00 neu=7.632e+09
+745000_saved A_grid_contourf.png
+[750000] loss=6.461e+07 | pde=6.420e+07 dir=3.404e+00 neu=6.538e+09
+750000_saved A_grid_contourf.png
+[755000] loss=1.275e+08 | pde=1.211e+08 dir=1.683e+01 neu=4.754e+11
+755000_saved A_grid_contourf.png
+[760000] loss=6.228e+07 | pde=5.726e+07 dir=4.559e+01 neu=4.536e+10
+760000_saved A_grid_contourf.png
+[765000] loss=4.619e+07 | pde=4.526e+07 dir=8.289e+00 neu=1.052e+10
+765000_saved A_grid_contourf.png
+[770000] loss=3.717e+07 | pde=3.666e+07 dir=2.807e+00 neu=2.263e+10
+770000_saved A_grid_contourf.png
+[775000] loss=7.408e+07 | pde=6.972e+07 dir=4.225e+01 neu=1.332e+10
+775000_saved A_grid_contourf.png
+[780000] loss=3.044e+07 | pde=2.896e+07 dir=1.432e+01 neu=5.388e+09
+780000_saved A_grid_contourf.png
+[785000] loss=4.893e+07 | pde=4.605e+07 dir=2.286e+01 neu=5.986e+10
+785000_saved A_grid_contourf.png
+[790000] loss=3.974e+07 | pde=3.748e+07 dir=2.187e+01 neu=7.055e+09
+790000_saved A_grid_contourf.png
+[795000] loss=2.451e+07 | pde=2.355e+07 dir=8.825e+00 neu=7.588e+09
+795000_saved A_grid_contourf.png
+[800000] loss=2.172e+07 | pde=2.044e+07 dir=1.699e+00 neu=1.105e+11
+800000_saved A_grid_contourf.png
+[805000] loss=3.243e+07 | pde=3.184e+07 dir=1.326e+00 neu=4.611e+10
+805000_saved A_grid_contourf.png
+[810000] loss=2.436e+07 | pde=2.302e+07 dir=1.017e+01 neu=3.184e+10
+810000_saved A_grid_contourf.png
+[815000] loss=1.937e+07 | pde=1.923e+07 dir=9.602e-01 neu=4.868e+09
+815000_saved A_grid_contourf.png
+[820000] loss=2.174e+07 | pde=2.012e+07 dir=7.736e+00 neu=8.464e+10
+820000_saved A_grid_contourf.png
+[825000] loss=1.389e+07 | pde=1.329e+07 dir=3.465e+00 neu=2.481e+10
+825000_saved A_grid_contourf.png
+[830000] loss=3.312e+07 | pde=3.271e+07 dir=3.263e+00 neu=8.936e+09
+830000_saved A_grid_contourf.png
+[835000] loss=1.583e+07 | pde=1.547e+07 dir=3.093e+00 neu=4.168e+09
+835000_saved A_grid_contourf.png
+[840000] loss=5.406e+07 | pde=5.341e+07 dir=9.231e-01 neu=5.572e+10
+840000_saved A_grid_contourf.png
+[845000] loss=1.789e+07 | pde=1.751e+07 dir=1.025e+00 neu=2.830e+10
+845000_saved A_grid_contourf.png
+[850000] loss=1.135e+07 | pde=1.120e+07 dir=1.090e+00 neu=4.009e+09
+850000_saved A_grid_contourf.png
+[855000] loss=4.512e+07 | pde=4.462e+07 dir=2.289e+00 neu=2.726e+10
+855000_saved A_grid_contourf.png
+[860000] loss=3.063e+07 | pde=3.038e+07 dir=1.903e+00 neu=5.756e+09
+860000_saved A_grid_contourf.png
+[865000] loss=1.766e+07 | pde=1.733e+07 dir=1.972e+00 neu=1.359e+10
+865000_saved A_grid_contourf.png
+[870000] loss=2.360e+07 | pde=2.338e+07 dir=1.513e+00 neu=7.519e+09
+870000_saved A_grid_contourf.png
+[875000] loss=6.747e+06 | pde=6.550e+06 dir=1.541e+00 neu=4.231e+09
+875000_saved A_grid_contourf.png
+[880000] loss=8.792e+06 | pde=8.564e+06 dir=1.425e+00 neu=8.493e+09
+880000_saved A_grid_contourf.png
+[885000] loss=8.990e+06 | pde=8.661e+06 dir=1.470e+00 neu=1.817e+10
+885000_saved A_grid_contourf.png
+[890000] loss=7.217e+06 | pde=7.125e+06 dir=4.444e-01 neu=4.783e+09
+890000_saved A_grid_contourf.png
+[895000] loss=7.714e+06 | pde=7.559e+06 dir=1.362e+00 neu=1.852e+09
+895000_saved A_grid_contourf.png
+[900000] loss=8.724e+06 | pde=8.608e+06 dir=2.560e-01 neu=9.052e+09
+900000_saved A_grid_contourf.png
+[905000] loss=6.483e+06 | pde=6.270e+06 dir=1.078e+00 neu=1.051e+10
+905000_saved A_grid_contourf.png
+[910000] loss=7.006e+06 | pde=6.738e+06 dir=1.688e+00 neu=9.945e+09
+910000_saved A_grid_contourf.png
+[915000] loss=5.294e+06 | pde=5.097e+06 dir=1.160e+00 neu=8.031e+09
+915000_saved A_grid_contourf.png
+[920000] loss=8.197e+06 | pde=8.032e+06 dir=1.079e+00 neu=5.711e+09
+920000_saved A_grid_contourf.png
+[925000] loss=1.159e+07 | pde=1.136e+07 dir=1.198e+00 neu=1.043e+10
+925000_saved A_grid_contourf.png
+[930000] loss=4.523e+06 | pde=4.405e+06 dir=8.456e-01 neu=3.354e+09
+930000_saved A_grid_contourf.png
+[935000] loss=4.184e+06 | pde=4.040e+06 dir=1.046e+00 neu=4.002e+09
+935000_saved A_grid_contourf.png
+[940000] loss=6.470e+06 | pde=6.388e+06 dir=6.232e-01 neu=1.967e+09
+940000_saved A_grid_contourf.png
+[945000] loss=5.489e+06 | pde=5.383e+06 dir=4.858e-01 neu=5.755e+09
+945000_saved A_grid_contourf.png
+[950000] loss=3.578e+06 | pde=3.384e+06 dir=1.249e+00 neu=6.975e+09
+950000_saved A_grid_contourf.png
+[955000] loss=6.323e+06 | pde=6.045e+06 dir=6.136e-01 neu=2.169e+10
+955000_saved A_grid_contourf.png
+[960000] loss=5.232e+07 | pde=5.180e+07 dir=8.193e-01 neu=4.382e+10
+960000_saved A_grid_contourf.png
+[965000] loss=5.915e+06 | pde=5.826e+06 dir=5.678e-01 neu=3.215e+09
+965000_saved A_grid_contourf.png
+[970000] loss=4.266e+06 | pde=4.113e+06 dir=1.117e+00 neu=4.190e+09
+970000_saved A_grid_contourf.png
+[975000] loss=4.541e+06 | pde=4.435e+06 dir=8.136e-01 neu=2.529e+09
+975000_saved A_grid_contourf.png
+[980000] loss=4.204e+06 | pde=4.008e+06 dir=5.977e-01 neu=1.362e+10
+980000_saved A_grid_contourf.png
+[985000] loss=1.407e+07 | pde=1.390e+07 dir=7.063e-01 neu=9.894e+09
+985000_saved A_grid_contourf.png
+[990000] loss=3.951e+06 | pde=3.868e+06 dir=6.911e-01 neu=1.347e+09
+990000_saved A_grid_contourf.png
+[995000] loss=4.295e+06 | pde=4.204e+06 dir=8.704e-01 neu=4.147e+08
+995000_saved A_grid_contourf.png
+[1000000] loss=1.255e+07 | pde=1.244e+07 dir=5.237e-01 neu=5.845e+09
+1000000_saved A_grid_contourf.png
+[OK] saved -> 1000000_pinn_model.pt
+実行時間： 2.3529646396636963 秒

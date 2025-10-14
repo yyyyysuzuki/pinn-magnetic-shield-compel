@@ -13,11 +13,9 @@ import matplotlib.pyplot as plt
 import write_vtk as wv
 import toolbox as tb
 import numpy as np
-import torch
 import torch.nn as nn
 import torch.optim as optim
-import csv
-import time
+import csv,os,random,time,torch
 from pathlib import Path
 
 # ==== 入力NPZ ==========================================================
@@ -36,7 +34,7 @@ nustar = jstar/astar
 
 # 材料ID -> 相対透磁率 mu_r
 MU_R = {
-    0: 1.0/nustar,   # 例: iron  (実験的に鉄を空気に変更しました)
+    0: 1000.0/nustar,   # 例: iron  (実験的に鉄を空気に変更しました)
     1: 1.0/nustar,      # 例: air
     3: 1.5/nustar,      # 例: coil  (巻線領域は近似的に空気扱いにしておく)
 }
@@ -55,7 +53,7 @@ NEUMANN_VALUE = 0.0
 # ==== 学習ハイパラ =====================================================
 HIDDEN = 64
 DEPTH  = 4
-LR     = 1e-3
+LR     = 1e-4
 EPOCHS = 1000000
 LAMBDA_PDE = 1.0
 LAMBDA_DIR = 1e+5
@@ -66,6 +64,15 @@ SEED = 42
 # =====================================================================
 
 torch.manual_seed(SEED)
+os.environ["PYTHONHASHSEED"] = str(SEED)
+random.seed(SEED)
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+torch.cuda.manual_seed_all(SEED)
+
+# 可能な限り決定論
+torch.backends.cudnn.deterministic = True  # 互換のため
+torch.backends.cudnn.benchmark    = False
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # ==== データ読み込み ====================================================
